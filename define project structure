@@ -1,1 +1,41 @@
+project structure
 
+IDKandJDKProject/
+├── src/
+│   ├── main/
+│   │   ├── java/                 # Contains application Java source code
+│   │   │   └── com/
+│   │   │       └── example/
+│   │   │           └── idkjdk/
+│   │   │               └── Main.java
+│   │   └── resources/            # Application resources, e.g., configuration files
+│   └── test/                     # Contains test source code
+│       └── java/
+│           └── com/
+│               └── example/
+│                   └── idkjdk/
+│                       └── MainTest.java
+├── pom.xml                       # Maven Project Object Model (POM) file
+└── README.md                     # Project documentation
+
+Explanation of Each Folder and File
+src/:
+
+This directory contains all the source code and resources of the project, divided into application (main) and test (test) components.
+src/main/java/:
+
+This folder holds the main Java source code files.
+You should create packages here to organize your code logically. For example, com.example.idkjdk might contain the main application class, Main.java.
+src/main/resources/:
+
+This folder is for configuration and other resource files your application might need, like application.properties or XML files.
+Maven includes this directory in the application’s classpath during the build, making these resources accessible to your Java classes.
+src/test/java/:
+
+This directory is dedicated to Java test code, such as unit tests or integration tests, organized similarly to the src/main/java folder.
+Test classes (e.g., MainTest.java) help verify the functionality of your main application code, using tools like JUnit.
+pom.xml:
+
+The POM (Project Object Model) file is central to any Maven project, controlling project configuration, dependency management, and build settings.
+Inside pom.xml, you specify project dependencies (like JUnit or Spring Boot), plugins, and build configurations.
+For example, Maven automatically downloads dependencies listed in pom.xml, ensuring that all developers and environments use the same libraries.
