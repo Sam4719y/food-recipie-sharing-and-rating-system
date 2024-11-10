@@ -32,19 +32,7 @@ Version Control: Git
 Installation
 To run this project locally, follow these steps:
 
-Clone the Repository:
 
-sh
-git clone https://github.com/yourusername/recipe-sharing-system.git
-cd recipe-sharing-system
-Backend Setup:
-
-Ensure you have Java and Maven installed.
-
-Navigate to the backend directory:
-
-sh
-cd backend
 Set up MySQL database:
 
 sql
