@@ -40,7 +40,7 @@ Clone the Repository:
 
 bash
 Copy code
-git clone https://github.com/username/FoodRecipeSharingSystem.git
+git clone https://github.com/Sam4719y/Food-Recipe-Sharing-and-rating-System.git
 Database Setup:
 
 Import the food_recipe_sharing.sql file into MySQL to create the database and tables.
