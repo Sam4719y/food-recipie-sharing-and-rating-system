@@ -1,93 +1,59 @@
-# food-recipie-sharing-and-rating-system
-
-Overview
-The Recipe Sharing and Rating System is a web application designed to facilitate the sharing and rating of food recipes. This platform enables users to register an account, submit their own recipes, search for recipes, and share them on social media. The application is built using Java Spring Boot for the backend and JavaScript for the frontend, with MySQL as the database for storing user data and recipes.
+#Food Recipe Sharing and Rating System
+Project Overview
+The Food Recipe Sharing and Rating System is a web application designed to create a community where users can share, rate, and discover recipes. This platform enables users to post their own recipes, rate others’ recipes, and leave comments, fostering a collaborative environment for food enthusiasts. The system also features a categorization mechanism to make recipe discovery easy and engaging.
 
 Features
-User Registration: New users can sign up by providing their username, email address, and password.
+User Registration and Authentication:
+Users can sign up, log in, and manage their profiles to keep track of their posted recipes and interactions with other users' recipes.
 
-Recipe Submission: Registered users can submit recipes with details such as recipe name, ingredients, preparation instructions, cooking time, and images.
+Recipe Sharing:
+Users can create, edit, and share recipes with details like ingredients, instructions, and photos. Recipes are stored in the database, allowing them to be viewed by all users.
 
-Search Functionality: Users can search for recipes by keywords, ingredients, cooking time, and dietary requirements.
+Rating System:
+Users can rate each recipe on a scale of 1 to 5. This rating system enables easy identification of top-rated recipes and provides feedback for recipe authors.
 
-Social Sharing: Recipes can be shared on social media platforms such as Facebook, Twitter, and Pinterest.
+Commenting:
+Users can leave comments on recipes, encouraging feedback, questions, and interaction within the community.
 
-Recipe Rating and Reviews: Users can rate recipes on a scale and leave comments or reviews.
+Categorization of Recipes:
+Recipes can be tagged with categories like Desserts, Pasta, Vegetarian, and more, making it easy for users to filter and find recipes based on their preferences.
 
-Favorites and Collections: Users can save favorite recipes and create custom collections for easy categorization.
+Search and Browse:
+Users can search for recipes by title, ingredients, or category, and browse based on the highest-rated or most-recent recipes.
 
-Advanced Recipe Search Filters: Refine recipe searches using filters such as dietary restrictions, cuisine types, and difficulty levels.
+Database Structure
+The project uses MySQL for data management with the following primary tables:
 
-Meal Planner: Users can create weekly or monthly meal plans by selecting recipes.
+Users: Stores user information like username, email, and password.
+Recipes: Stores recipe details including title, description, ingredients, and instructions.
+Ratings: Stores user ratings for each recipe, allowing for calculation of average ratings.
+Comments: Stores user comments on each recipe.
+Categories: Defines various categories under which recipes can be classified.
+Technology Stack
+Frontend: HTML, CSS, JavaScript for user interface.
+Backend: PHP or Node.js (can be adapted depending on preference) to handle server-side logic.
+Database: MySQL for data storage and management.
+Setup Instructions
+Clone the Repository:
 
-Tech Stack
-Frontend: HTML, CSS, JavaScript
+bash
+Copy code
+git clone https://github.com/username/FoodRecipeSharingSystem.git
+Database Setup:
 
-Backend: Java Spring Boot
-
-Database: MySQL
-
-Version Control: Git
-
-Installation
-To run this project locally, follow these steps:
-
-
-Set up MySQL database:
-
-sql
-CREATE DATABASE recipes_db;
-USE recipes_db;
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL
-);
-CREATE TABLE recipes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    recipe_name VARCHAR(255) NOT NULL,
-    ingredients TEXT NOT NULL,
-    instructions TEXT NOT NULL,
-    cooking_time VARCHAR(50),
-    FOREIGN KEY (user_id) REFERENCES users(id)
-);
-Configure database connection in application.properties:
-
-properties
-spring.datasource.url=jdbc:mysql://localhost:3306/recipes_db
-spring.datasource.username=yourusername
-spring.datasource.password=yourpassword
-Frontend Setup:
-
-Navigate to the frontend directory:
-
-sh
-cd ../frontend
-Open index.html in a browser to view the application.
-
+Import the food_recipe_sharing.sql file into MySQL to create the database and tables.
+Configure your database connection settings in the backend files.
 Run the Application:
 
-Start the Spring Boot application:
-
-sh
-mvn spring-boot:run
-Usage
-Home Page: Browse the latest and most popular recipes.
-
-Add Recipe: Users can submit their own recipes by filling out the provided form.
-
-Search Recipes: Use the search bar to find recipes based on keywords, ingredients, and other criteria.
-
-Rate and Review: Users can rate and leave reviews on recipes they’ve tried.
-
-Social Sharing: Share your favorite recipes on social media platforms.
-
-Meal Planner: Create and manage meal plans by selecting recipes.
-
+Start the server (e.g., with Node.js or PHP).
+Open your browser and navigate to the application URL (e.g., http://localhost:8000).
+Future Enhancements
+Recipe Images: Adding image upload capability for each recipe.
+User Profiles: Enhanced profiles with follower/following functionality.
+Advanced Search Filters: Filters based on preparation time, cuisine, dietary preferences, etc.
+Mobile App: Expanding the platform to a mobile application for Android and iOS.
 Contributing
-Contributions are welcome! Please fork the repository and create a pull request with your changes. Ensure your code follows the project’s style guidelines and includes relevant tests.
+Contributions are welcome! If you'd like to contribute, please fork the repository, make your changes, and submit a pull request.
 
 License
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the MIT License. See LICENSE for more information.
