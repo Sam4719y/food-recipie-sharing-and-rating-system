@@ -1,1 +1,76 @@
+package com.example;
+
+import java.sql.*;
+
+public class FoodRecipeApp {
+    // Database URL, username, and password
+    private static final String URL = "jdbc:mysql://localhost:3306/FoodRecipeDB";
+    private static final String USER = "root";      // Change this based on your setup
+    private static final String PASSWORD = "password";  // Change this to your MySQL password
+
+    public static void main(String[] args) {
+        // 1. Establishing a Connection
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
+            System.out.println("Connected to the database.");
+
+            // 2. Creating a Table
+            createTable(connection);
+
+            // 3. Inserting Data
+            insertRecipe(connection, "Pasta", "Italian", 4.5);
+            insertRecipe(connection, "Tacos", "Mexican", 4.2);
+
+            // 4. Retrieving Data
+            retrieveRecipes(connection);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Method to create a table
+    public static void createTable(Connection connection) throws SQLException {
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS recipes (" +
+                "id INT AUTO_INCREMENT PRIMARY KEY, " +
+                "name VARCHAR(50) NOT NULL, " +
+                "cuisine VARCHAR(50), " +
+                "rating DOUBLE" +
+                ")";
+        try (Statement statement = connection.createStatement()) {
+            statement.execute(createTableSQL);
+            System.out.println("Table 'recipes' created successfully.");
+        }
+    }
+
+    // Method to insert a recipe
+    public static void insertRecipe(Connection connection, String name, String cuisine, double rating) throws SQLException {
+        String insertSQL = "INSERT INTO recipes (name, cuisine, rating) VALUES (?, ?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(insertSQL)) {
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, cuisine);
+            preparedStatement.setDouble(3, rating);
+            int rowsInserted = preparedStatement.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("A new recipe was inserted successfully.");
+            }
+        }
+    }
+
+    // Method to retrieve and print recipes
+    public static void retrieveRecipes(Connection connection) throws SQLException {
+        String selectSQL = "SELECT * FROM recipes";
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(selectSQL)) {
+
+            System.out.println("Recipes:");
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String cuisine = resultSet.getString("cuisine");
+                double rating = resultSet.getDouble("rating");
+                System.out.printf("ID: %d, Name: %s, Cuisine: %s, Rating: %.2f%n", id, name, cuisine, rating);
+            }
+        }
+    }
+}
 
