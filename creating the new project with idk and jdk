@@ -1,1 +1,49 @@
+IDK and JDK Project
+Project Overview
+The IDK and JDK Project is a basic Java application built to demonstrate the use of Java Development Kit (JDK) in an IDE environment. This project is created as a starting point for Java development, serving as an introductory example of setting up a Java environment, writing a simple program, and deploying it to GitHub.
 
+Key Components
+Java Development Kit (JDK): The project is developed using the Java Development Kit, which provides the necessary tools to compile and run Java programs.
+Integrated Development Environment (IDE): This project uses an IDE (e.g., IntelliJ IDEA) for easier management of Java files, compilation, and execution.
+Git and GitHub: The project is version-controlled with Git and hosted on GitHub for collaboration and remote access.
+Project Structure
+The project consists of a single class called Main.java, which includes a main method. This method outputs a simple message to the console, demonstrating the basic structure of a Java application.
+
+Code Example
+java
+Copy code
+package com.example.idkjdk;
+
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello from IDK and JDK project!");
+    }
+}
+Getting Started
+Prerequisites
+JDK: Install JDK (version 17 or later is recommended) to compile and run the project.
+IDE: Use an IDE like IntelliJ IDEA, Eclipse, or Visual Studio Code to open, edit, and run the project.
+Git: Ensure Git is installed on your system to manage the code version and push it to GitHub.
+Installation
+Clone the Repository:
+
+bash
+Copy code
+git clone https://github.com/sam4719y/IDKandJDKProject.git
+cd IDKandJDKProject
+Open in IDE:
+
+Open your IDE and import the project.
+Make sure the JDK is configured in the project settings.
+Run the Application:
+
+In your IDE, locate Main.java and run the file.
+You should see the following output:
+plaintext
+Copy code
+Hello from IDK and JDK project!
+Usage
+This project is intended to showcase a basic setup for Java development using JDK and an IDE. The code can be expanded upon for learning Java programming or as a foundational setup for more complex applications.
+
+License
+This project is licensed under the MIT License - see the LICENSE file for detai
