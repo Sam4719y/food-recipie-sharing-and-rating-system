@@ -1,1 +1,188 @@
+package com.example.dao;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class RecipeDAO {
+    private static final String URL = "jdbc:mysql://localhost:3306/FoodRecipeDB";
+    private static final String USER = "root";     // Your database username
+    private static final String PASSWORD = "password";  // Your database password
+
+    // Method to establish a database connection
+    private Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL, USER, PASSWORD);
+    }
+
+    // Method to create a new recipe
+    public void addRecipe(Recipe recipe) {
+        String sql = "INSERT INTO recipes (name, cuisine, rating) VALUES (?, ?, ?)";
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, recipe.getName());
+            statement.setString(2, recipe.getCuisine());
+            statement.setDouble(3, recipe.getRating());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Method to get a recipe by ID
+    public Recipe getRecipeById(int id) {
+        Recipe recipe = null;
+        String sql = "SELECT * FROM recipes WHERE id = ?";
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                recipe = new Recipe(resultSet.getString("name"),
+                                    resultSet.getString("cuisine"),
+                                    resultSet.getDouble("rating"));
+                recipe.setId(resultSet.getInt("id"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return recipe;
+    }
+
+    // Method to get all recipes
+    public List<Recipe> getAllRecipes() {
+        List<Recipe> recipes = new ArrayList<>();
+        String sql = "SELECT * FROM recipes";
+        try (Connection connection = getConnection(); Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                Recipe recipe = new Recipe(resultSet.getString("name"),
+                                           resultSet.getString("cuisine"),
+                                           resultSet.getDouble("rating"));
+                recipe.setId(resultSet.getInt("id"));
+                recipes.add(recipe);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return recipes;
+    }
+
+    // Method to update a recipe's rating
+    public void updateRecipe(Recipe recipe) {
+        String sql = "UPDATE recipes SET name = ?, cuisine = ?, rating = ? WHERE id = ?";
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, recipe.getName());
+            statement.setString(2, recipe.getCuisine());
+            statement.setDouble(3, recipe.getRating());
+            statement.setInt(4, recipe.getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Method to delete a recipe by ID
+    public void deleteRecipe(int id) {
+        String sql = "DELETE FROM recipes WHERE id = ?";
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+#recipie.dao
+package com.example;
+
+import com.example.dao.Recipe;
+import com.example.dao.RecipeDAO;
+
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        // Creating DAO instance
+        RecipeDAO recipeDAO = new RecipeDAO();
+
+        // Create and add new recipes
+        Recipe recipe1 = new Recipe("Pasta", "Italian", 4.5);
+        Recipe recipe2 = new Recipe("Tacos", "Mexican", 4.2);
+
+        recipeDAO.addRecipe(recipe1);
+        recipeDAO.addRecipe(recipe2);
+
+        // Get all recipes
+        List<Recipe> recipes = recipeDAO.getAllRecipes();
+        System.out.println("All Recipes:");
+        for (Recipe recipe : recipes) {
+            System.out.printf("ID: %d, Name: %s, Cuisine: %s, Rating: %.2f%n",
+                              recipe.getId(), recipe.getName(), recipe.getCuisine(), recipe.getRating());
+        }
+
+        // Update a recipe's rating
+        recipe1.setRating(4.7);
+        recipeDAO.updateRecipe(recipe1);
+
+        // Get a specific recipe by ID
+        Recipe updatedRecipe = recipeDAO.getRecipeById(1);
+        System.out.println("Updated Recipe:");
+        System.out.printf("ID: %d, Name: %s, Cuisine: %s, Rating: %.2f%n",
+                          updatedRecipe.getId(), updatedRecipe.getName(), updatedRecipe.getCuisine(), updatedRecipe.getRating());
+
+        // Delete a recipe
+        recipeDAO.deleteRecipe(2);
+        System.out.println("Recipe with ID 2 deleted.");
+    }
+}
+
+
+
+package com.example.dao;
+
+public class Recipe {
+    private int id;
+    private String name;
+    private String cuisine;
+    private double rating;
+
+    // Constructor
+    public Recipe(String name, String cuisine, double rating) {
+        this.name = name;
+        this.cuisine = cuisine;
+        this.rating = rating;
+    }
+
+    // Getters and Setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCuisine() {
+        return cuisine;
+    }
+
+    public void setCuisine(String cuisine) {
+        this.cuisine = cuisine;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+}
+
 
