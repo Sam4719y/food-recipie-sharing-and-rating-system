@@ -1,4 +1,5 @@
 #Food Recipe Sharing and Rating System
+
 Project Overview
 The Food Recipe Sharing and Rating System is a web application designed to create a community where users can share, rate, and discover recipes. This platform enables users to post their own recipes, rate others’ recipes, and leave comments, fostering a collaborative environment for food enthusiasts. The system also features a categorization mechanism to make recipe discovery easy and engaging.
 
