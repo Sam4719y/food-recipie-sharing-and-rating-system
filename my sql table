@@ -1,1 +1,94 @@
+-- Create a database
+CREATE DATABASE FoodRecipeSharing;
+USE FoodRecipeSharing;
+
+-- Table for Users
+CREATE TABLE Users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Table for Recipes
+CREATE TABLE Recipes (
+    recipe_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    title VARCHAR(100) NOT NULL,
+    description TEXT,
+    ingredients TEXT,
+    instructions TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
+);
+
+-- Table for Ratings
+CREATE TABLE Ratings (
+    rating_id INT AUTO_INCREMENT PRIMARY KEY,
+    recipe_id INT,
+    user_id INT,
+    rating TINYINT CHECK (rating BETWEEN 1 AND 5),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (recipe_id) REFERENCES Recipes(recipe_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
+);
+
+-- Table for Comments
+CREATE TABLE Comments (
+    comment_id INT AUTO_INCREMENT PRIMARY KEY,
+    recipe_id INT,
+    user_id INT,
+    comment TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (recipe_id) REFERENCES Recipes(recipe_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
+);
+
+-- Table for Categories (optional)
+CREATE TABLE Categories (
+    category_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL
+);
+
+-- Table for Recipe Categories (many-to-many relationship)
+CREATE TABLE RecipeCategories (
+    recipe_id INT,
+    category_id INT,
+    PRIMARY KEY (recipe_id, category_id),
+    FOREIGN KEY (recipe_id) REFERENCES Recipes(recipe_id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES Categories(category_id) ON DELETE CASCADE
+);
+
+-- Sample data insertion
+INSERT INTO Users (username, email, password) VALUES
+('john_doe', 'john@example.com', 'hashed_password1'),
+('jane_smith', 'jane@example.com', 'hashed_password2');
+
+INSERT INTO Recipes (user_id, title, description, ingredients, instructions) VALUES
+(1, 'Pasta Alfredo', 'A creamy Alfredo pasta recipe', 'Pasta, Cream, Cheese', 'Boil pasta, mix with cream and cheese.'),
+(2, 'Chocolate Cake', 'A delicious chocolate cake recipe', 'Flour, Cocoa, Sugar, Eggs', 'Mix ingredients and bake.');
+
+INSERT INTO Ratings (recipe_id, user_id, rating) VALUES
+(1, 2, 5),
+(2, 1, 4);
+
+INSERT INTO Comments (recipe_id, user_id, comment) VALUES
+(1, 2, 'This pasta is amazing!'),
+(2, 1, 'The chocolate cake was delicious!');
+
+INSERT INTO Categories (name) VALUES
+('Dessert'),
+('Pasta'),
+('Vegetarian');
+
+INSERT INTO RecipeCategories (recipe_id, category_id) VALUES
+(1, 2),
+(2, 1);
+
+-- Query to view average rating for each recipe
+SELECT Recipes.title, AVG(Ratings.rating) AS average_rating
+FROM Recipes
+JOIN Ratings ON Recipes.recipe_id = Ratings.recipe_id
+GROUP BY Recipes.recipe_id;
 
