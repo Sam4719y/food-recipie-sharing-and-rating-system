@@ -1,1 +1,43 @@
+package com.example;
+
+import com.example.dao.Recipe;
+import com.example.dao.RecipeDAO;
+
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        // Creating DAO instance
+        RecipeDAO recipeDAO = new RecipeDAO();
+
+        // Create and add new recipes
+        Recipe recipe1 = new Recipe("Pasta", "Italian", 4.5);
+        Recipe recipe2 = new Recipe("Tacos", "Mexican", 4.2);
+
+        recipeDAO.addRecipe(recipe1);
+        recipeDAO.addRecipe(recipe2);
+
+        // Get all recipes
+        List<Recipe> recipes = recipeDAO.getAllRecipes();
+        System.out.println("All Recipes:");
+        for (Recipe recipe : recipes) {
+            System.out.printf("ID: %d, Name: %s, Cuisine: %s, Rating: %.2f%n",
+                              recipe.getId(), recipe.getName(), recipe.getCuisine(), recipe.getRating());
+        }
+
+        // Update a recipe's rating
+        recipe1.setRating(4.7);
+        recipeDAO.updateRecipe(recipe1);
+
+        // Get a specific recipe by ID
+        Recipe updatedRecipe = recipeDAO.getRecipeById(1);
+        System.out.println("Updated Recipe:");
+        System.out.printf("ID: %d, Name: %s, Cuisine: %s, Rating: %.2f%n",
+                          updatedRecipe.getId(), updatedRecipe.getName(), updatedRecipe.getCuisine(), updatedRecipe.getRating());
+
+        // Delete a recipe
+        recipeDAO.deleteRecipe(2);
+        System.out.println("Recipe with ID 2 deleted.");
+    }
+}
 
