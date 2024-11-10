@@ -1,1 +1,8 @@
+Connected to the database.
+Table 'recipes' created successfully.
+A new recipe was inserted successfully.
+A new recipe was inserted successfully.
+Recipes:
+ID: 1, Name: Pasta, Cuisine: Italian, Rating: 4.50
+ID: 2, Name: Tacos, Cuisine: Mexican, Rating: 4.20
 
