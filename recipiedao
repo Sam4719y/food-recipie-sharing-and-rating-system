@@ -1,1 +1,93 @@
+package com.example.dao;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class RecipeDAO {
+    private static final String URL = "jdbc:mysql://localhost:3306/FoodRecipeDB";
+    private static final String USER = "root";     // Your database username
+    private static final String PASSWORD = "password";  // Your database password
+
+    // Method to establish a database connection
+    private Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL, USER, PASSWORD);
+    }
+
+    // Method to create a new recipe
+    public void addRecipe(Recipe recipe) {
+        String sql = "INSERT INTO recipes (name, cuisine, rating) VALUES (?, ?, ?)";
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, recipe.getName());
+            statement.setString(2, recipe.getCuisine());
+            statement.setDouble(3, recipe.getRating());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Method to get a recipe by ID
+    public Recipe getRecipeById(int id) {
+        Recipe recipe = null;
+        String sql = "SELECT * FROM recipes WHERE id = ?";
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                recipe = new Recipe(resultSet.getString("name"),
+                                    resultSet.getString("cuisine"),
+                                    resultSet.getDouble("rating"));
+                recipe.setId(resultSet.getInt("id"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return recipe;
+    }
+
+    // Method to get all recipes
+    public List<Recipe> getAllRecipes() {
+        List<Recipe> recipes = new ArrayList<>();
+        String sql = "SELECT * FROM recipes";
+        try (Connection connection = getConnection(); Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                Recipe recipe = new Recipe(resultSet.getString("name"),
+                                           resultSet.getString("cuisine"),
+                                           resultSet.getDouble("rating"));
+                recipe.setId(resultSet.getInt("id"));
+                recipes.add(recipe);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return recipes;
+    }
+
+    // Method to update a recipe's rating
+    public void updateRecipe(Recipe recipe) {
+        String sql = "UPDATE recipes SET name = ?, cuisine = ?, rating = ? WHERE id = ?";
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, recipe.getName());
+            statement.setString(2, recipe.getCuisine());
+            statement.setDouble(3, recipe.getRating());
+            statement.setInt(4, recipe.getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Method to delete a recipe by ID
+    public void deleteRecipe(int id) {
+        String sql = "DELETE FROM recipes WHERE id = ?";
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
 
